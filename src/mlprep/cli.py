@@ -1,3 +1,4 @@
+from mlprep.profiler import profile_dataset
 import typer
 import pandas as pd
 app = typer.Typer()
@@ -6,15 +7,22 @@ app = typer.Typer()
 @app.command()
 def inspect(file_path:str):
     df = pd.read_csv(file_path)
+    profile = profile_dataset(df)
 
-    print(f"Rows:{df.shape[0]}")
-    print(f"Columns:{df.shape[1]}")
-    print(f"\n Missing values per column\n")
-    print(df.isnull().sum())
-    print("\n Data Types :\n")
-    print(df.dtypes)
-    print("\n Sample Data :\n")
-    print(df.head())
+    print("\nMissing values:")
+    print(profile.missing_values)
+
+    print("\nData Types:")
+    print(profile.data_types)
+
+    print("\nCategorical Values:")
+    print(profile.categorical_values)
+
+    print("\nNumerical Values:")
+    print(profile.numerical_values)
+
+    print("\nSample Data:")
+    print(profile.sample_data)
 
 if __name__ == "__main__":
     app()
