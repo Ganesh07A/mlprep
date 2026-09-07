@@ -4,9 +4,12 @@ from mlprep.io import load_dataset
 from mlprep.validator import validate_input
 import typer
 import pandas as pd
+from mlprep.preprocess.missing import handle_missing_values
 from rich.console import Console
 app = typer.Typer()
 console=Console()
+
+
 
 @app.command()
 def inspect(file_path:Path):
@@ -22,6 +25,11 @@ def inspect(file_path:Path):
         display_profile(df)
     except ValueError as error:
         console.print(f"[red]{error}[/red]")
+
+    
+    df = handle_missing_values(df)
+
+    console.print(df)
 
 
     
