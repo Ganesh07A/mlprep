@@ -1,28 +1,37 @@
-from mlprep.profiler import profile_dataset
+from pathlib import Path
+from mlprep.display import display_profile
+from mlprep.io import load_dataset
+from mlprep.validator import validate_input
 import typer
 import pandas as pd
+from rich.console import Console
 app = typer.Typer()
-
+console=Console()
 
 @app.command()
-def inspect(file_path:str):
-    df = pd.read_csv(file_path)
-    profile = profile_dataset(df)
+def inspect(file_path:Path):
 
-    print("\nMissing values:")
-    print(profile.missing_values)
+    try:
+        validate_input(file_path)
+    except ValueError as error:
+        console.print(f"[red]Error: {error}[/red]")
+        raise typer.Exit(code=1)
 
-    print("\nData Types:")
-    print(profile.data_types)
+    try:
+        df = load_dataset(file_path)
+    except ValueError as error:
+        console.print("f[/red]{error}[/red]")
+        
+    display_profile(df)
 
-    print("\nCategorical Values:")
-    print(profile.categorical_values)
+    
 
-    print("\nNumerical Values:")
-    print(profile.numerical_values)
 
-    print("\nSample Data:")
-    print(profile.sample_data)
+    # console.print(f"\n[bold]DATASET SUMMARY[/bold]")
+    # console.print(f"Rows: {profile.rows}")
+    # console.print(f"Columns: {profile.columns}")
+    # console.print(f"Numerical columns: {len(profile.numerical_values)}")
+    # console.print(f"Categorical columns: {len(profile.categorical_values)}")
 
 if __name__ == "__main__":
     app()
