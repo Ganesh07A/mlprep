@@ -19,10 +19,10 @@ def inspect(file_path:Path):
 
     try:
         df = load_dataset(file_path)
+        display_profile(df)
     except ValueError as error:
-        console.print("f[/red]{error}[/red]")
-        
-    display_profile(df)
+        console.print(f"[red]{error}[/red]")
+
 
     
 
