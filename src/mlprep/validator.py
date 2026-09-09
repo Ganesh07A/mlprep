@@ -1,11 +1,13 @@
 from pathlib import Path
+
+import typer
 from rich.console import Console
-import typer 
 
-console=Console()
-SUPPORTED_EXTENSIONS={".csv"}
+console = Console()
+SUPPORTED_EXTENSIONS = {".csv"}
 
-def validate_input(file_path:Path)-> None:
+
+def validate_input(file_path: Path) -> None:
     if not file_path.exists():
         console.print("[red]Error: File does not exist.[/red]")
         raise typer.Exit(code=1)

@@ -1,12 +1,12 @@
-from numpy import median
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
-def get_missing_columns(df:pd.DataFrame) ->list[str]:
+
+def get_missing_columns(df: pd.DataFrame) -> list[str]:
     return df.columns[df.isnull().any()].tolist()
 
 
-# func for filling the null values 
+# func for filling the null values
 def create_numerical_imputer() -> SimpleImputer:
     return SimpleImputer(strategy="median")
 
@@ -17,8 +17,8 @@ def impute_numerical_data(df: pd.DataFrame) -> pd.DataFrame:
 
     imputer = SimpleImputer(strategy="median")
 
-    df[numerical_columns]= imputer.fit_transform(df[numerical_columns])
-  
+    df[numerical_columns] = imputer.fit_transform(df[numerical_columns])
+
     return df
 
 
@@ -27,8 +27,8 @@ def impute_categorical_data(df: pd.DataFrame) -> pd.DataFrame:
 
     imputer = SimpleImputer(strategy="most_frequent")
 
-    df[categorical_columns]= imputer.fit_transform(df[categorical_columns])
-  
+    df[categorical_columns] = imputer.fit_transform(df[categorical_columns])
+
     return df
 
 
@@ -36,5 +36,3 @@ def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     df = impute_categorical_data(df)
     df = impute_numerical_data(df)
     return df
-
-    

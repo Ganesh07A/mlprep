@@ -6,14 +6,24 @@ def create_encoder() -> OneHotEncoder:
     return OneHotEncoder(handle_unknown="ignore", sparse_output=False)
 
 
-# tesing purpose only
-data = pd.DataFrame({
-    "city": ["Delhi", "Mumbai", "Delhi"]
-})
+def encode_categorical_data(df: pd.DataFrame) -> pd.DataFrame:
+    categorical_columns = df.select_dtypes(include="object").columns
 
-encoder = OneHotEncoder(sparse_output=False)
+    encoder = OneHotEncoder(
+        handle_unknown="ignore",
+        sparse_output=False,
+    )
 
-encoded = encoder.fit_transform(data)
+    encoded_data = encoder.fit_transform(df[categorical_columns])
 
-print(encoded)
-print(encoder.get_feature_names_out())
+    encoded_columns = encoder.get_feature_names_out(categorical_columns)
+
+    encoded_df = pd.DataFrame(
+        encoded_data,
+        columns=encoded_columns,
+        index=df.index,
+    )
+
+    df = df.drop(columns=categorical_columns)
+
+    return pd.concat([df, encoded_df], axis=1)
