@@ -1,5 +1,6 @@
 import pandas as pd
 
+from mlprep.config import PreprocessConfig
 from mlprep.preprocess.pipeline import create_preprocessor, create_processed_dataframe
 
 
@@ -14,6 +15,7 @@ def test_preprocessor_handles_missing_numeric_values():
     preprocessor = create_preprocessor(
         numerical_columns=["age"],
         categorical_columns=["city"],
+        config=PreprocessConfig(),
     )
 
     processed = preprocessor.fit_transform(df)
@@ -33,6 +35,7 @@ def test_preprocessor_encodes_categorical_values():
     preprocessor = create_preprocessor(
         numerical_columns=["age"],
         categorical_columns=["city"],
+        config=PreprocessConfig(),
     )
 
     preprocessor.fit(df)
@@ -60,6 +63,7 @@ def test_preprocessor_handles_unknown_category():
     preprocessor = create_preprocessor(
         numerical_columns=["age"],
         categorical_columns=["city"],
+        config=PreprocessConfig(),
     )
 
     preprocessor.fit(train_df)
@@ -79,6 +83,7 @@ def test_preprocessor_scales_numeric_values():
     preprocessor = create_preprocessor(
         numerical_columns=["age"],
         categorical_columns=[],
+        config=PreprocessConfig(),
     )
 
     processed = preprocessor.fit_transform(df)
@@ -98,6 +103,7 @@ def test_create_processed_dataframe():
     preprocessor = create_preprocessor(
         numerical_columns=["age"],
         categorical_columns=[],
+        config=PreprocessConfig(),
     )
 
     processed_data = preprocessor.fit_transform(df)

@@ -1,0 +1,41 @@
+{
+  "input_file": "data\\sample.csv",
+  "rows": 4,
+  "numerical_columns": [
+    "age",
+    "salary"
+  ],
+  "categorical_columns": [
+    "name",
+    "city"
+  ],
+  "transformations": [
+    {
+      "column": "age",
+      "column_type": "numerical",
+      "imputation": "mean imputation",
+      "transformation": "standard scaling"
+    },
+    {
+      "column": "salary",
+      "column_type": "numerical",
+      "imputation": "mean imputation",
+      "transformation": "standard scaling"
+    },
+    {
+      "column": "name",
+      "column_type": "categorical",
+      "imputation": "most_frequent imputation",
+      "transformation": "one-hot encoding"
+    },
+    {
+      "column": "city",
+      "column_type": "categorical",
+      "imputation": "most_frequent imputation",
+      "transformation": "one-hot encoding"
+    }
+  ],
+  "output_file": "data\\processed.csv",
+  "pipeline_file": "data\\preprocessor.joblib",
+  "report_file": "data\\report.json"
+}
