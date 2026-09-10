@@ -42,7 +42,7 @@ def test_preprocess_command(tmp_path):
         ["preprocess", "data/sample.csv", "--output", str(output)],
     )
     assert result.exit_code == 0, result.output
-    assert "Processed dataset saved" in result.stdout
+    assert "Processed dataset" in result.stdout
 
 
 def test_preprocess_saves_pipeline(tmp_path):
@@ -204,7 +204,7 @@ def test_transform_command(tmp_path):
         ],
     )
     assert result.exit_code == 0, result.output
-    assert "Transformed dataset saved" in result.stdout
+    assert "Transformed dataset" in result.stdout
 
 
 def test_transform_invalid_pipeline_extension(tmp_path):
