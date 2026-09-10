@@ -8,7 +8,6 @@ Covers:
   TTY / mode detection tests via CliRunner
 """
 
-
 import yaml
 from typer.testing import CliRunner
 
@@ -76,9 +75,12 @@ def test_preprocess_expert_numerical_strategy(tmp_path):
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--output", str(output),
-            "--strategy", "mean",
+            "preprocess",
+            "data/sample.csv",
+            "--output",
+            str(output),
+            "--strategy",
+            "mean",
         ],
     )
     assert result.exit_code == 0, result.output
@@ -90,9 +92,12 @@ def test_preprocess_expert_invalid_strategy(tmp_path):
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--output", str(output),
-            "--strategy", "bad_strategy",
+            "preprocess",
+            "data/sample.csv",
+            "--output",
+            str(output),
+            "--strategy",
+            "bad_strategy",
         ],
     )
     assert result.exit_code == 1
@@ -103,9 +108,12 @@ def test_preprocess_expert_cat_strategy(tmp_path):
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--output", str(output),
-            "--cat-strategy", "constant",
+            "preprocess",
+            "data/sample.csv",
+            "--output",
+            str(output),
+            "--cat-strategy",
+            "constant",
         ],
     )
     assert result.exit_code == 0, result.output
@@ -117,20 +125,25 @@ def test_preprocess_expert_cat_strategy(tmp_path):
 def test_preprocess_config_mode(tmp_path):
     cfg = tmp_path / "config.yaml"
     cfg.write_text(
-        yaml.dump({
-            "missing_values": {"numerical": "mean", "categorical": "constant"},
-            "encoding": {"method": "onehot"},
-            "scaling": {"method": "standard"},
-        }),
+        yaml.dump(
+            {
+                "missing_values": {"numerical": "mean", "categorical": "constant"},
+                "encoding": {"method": "onehot"},
+                "scaling": {"method": "standard"},
+            }
+        ),
         encoding="utf-8",
     )
     output = tmp_path / "processed.csv"
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--output", str(output),
-            "--config", str(cfg),
+            "preprocess",
+            "data/sample.csv",
+            "--output",
+            str(output),
+            "--config",
+            str(cfg),
         ],
     )
     assert result.exit_code == 0, result.output
@@ -159,13 +172,18 @@ def test_preprocess_config_plus_strategy_rejected(tmp_path):
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--config", str(cfg),
-            "--strategy", "mean",
+            "preprocess",
+            "data/sample.csv",
+            "--config",
+            str(cfg),
+            "--strategy",
+            "mean",
         ],
     )
     assert result.exit_code == 1
-    assert "Cannot combine" in result.stdout or "Cannot combine" in (result.stderr or "")
+    assert "Cannot combine" in result.stdout or "Cannot combine" in (
+        result.stderr or ""
+    )
 
 
 def test_preprocess_config_plus_cat_strategy_rejected(tmp_path):
@@ -174,9 +192,12 @@ def test_preprocess_config_plus_cat_strategy_rejected(tmp_path):
     result = runner.invoke(
         app,
         [
-            "preprocess", "data/sample.csv",
-            "--config", str(cfg),
-            "--cat-strategy", "constant",
+            "preprocess",
+            "data/sample.csv",
+            "--config",
+            str(cfg),
+            "--cat-strategy",
+            "constant",
         ],
     )
     assert result.exit_code == 1
@@ -200,7 +221,8 @@ def test_transform_command(tmp_path):
             "transform",
             "data/sample.csv",
             str(pipeline_path),
-            "--output", str(tmp_path / "transformed.csv"),
+            "--output",
+            str(tmp_path / "transformed.csv"),
         ],
     )
     assert result.exit_code == 0, result.output
@@ -243,7 +265,8 @@ def test_saved_pipeline_can_transform_data(tmp_path):
             "transform",
             str(new_data),
             str(pipeline),
-            "--output", str(tmp_path / "transformed.csv"),
+            "--output",
+            str(tmp_path / "transformed.csv"),
         ],
     )
     assert result.exit_code == 0, result.output

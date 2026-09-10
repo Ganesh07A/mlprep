@@ -50,4 +50,6 @@ def setup_logging(verbose: bool = False) -> None:
 
 def get_logger(name: str) -> logging.Logger:
     """Return a logger namespaced under ``mlprep.<name>``."""
-    return logging.getLogger(f"mlprep.{name}" if not name.startswith("mlprep") else name)
+    return logging.getLogger(
+        f"mlprep.{name}" if not name.startswith("mlprep") else name
+    )

@@ -68,9 +68,7 @@ def test_constant_numerical_fill_default():
 
 
 def test_constant_numerical_fill_custom():
-    config = PreprocessConfig(
-        numerical_strategy="constant", numerical_fill_value=-1.0
-    )
+    config = PreprocessConfig(numerical_strategy="constant", numerical_fill_value=-1.0)
     assert config.resolved_numerical_fill == -1.0
 
 

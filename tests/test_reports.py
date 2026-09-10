@@ -73,9 +73,7 @@ def test_report_categorical_transformation(tmp_path):
 
 
 def test_report_constant_strategy_described(tmp_path):
-    config = PreprocessConfig(
-        numerical_strategy="constant", numerical_fill_value=0.0
-    )
+    config = PreprocessConfig(numerical_strategy="constant", numerical_fill_value=0.0)
     profile = _make_profile()
     report = build_report(
         config=config,

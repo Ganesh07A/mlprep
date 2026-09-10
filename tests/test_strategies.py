@@ -48,7 +48,9 @@ def test_numerical_constant_strategy():
 def test_numerical_constant_custom_fill():
     """Constant fill with a specific value should influence scaling output."""
     df = pd.DataFrame({"score": [10.0, None, 30.0]})
-    config = PreprocessConfig(numerical_strategy="constant", numerical_fill_value=-999.0)
+    config = PreprocessConfig(
+        numerical_strategy="constant", numerical_fill_value=-999.0
+    )
     processed_df, _ = preprocess_dataset(df, config)
     assert not processed_df.isnull().any().any()
     # The imputed -999 will be a very negative scaled value
@@ -103,5 +105,7 @@ def test_create_preprocessor_uses_config():
     config = PreprocessConfig(numerical_strategy="mean")
     preprocessor = create_preprocessor(["age"], ["city"], config)
     # Check the numerical imputer has the correct strategy
-    num_pipeline = {name: est for name, est, _ in preprocessor.transformers}["numerical"]
+    num_pipeline = {name: est for name, est, _ in preprocessor.transformers}[
+        "numerical"
+    ]
     assert num_pipeline.named_steps["imputer"].strategy == "mean"

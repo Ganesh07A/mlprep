@@ -159,16 +159,26 @@ def test_transform_does_not_refit():
     _, preprocessor = preprocess_dataset(train_df, config)
 
     # Record training statistics (mean of age after standard scaler)
-    num_pipeline = {name: est for name, est, _ in preprocessor.transformers_}["numerical"]
+    num_pipeline = {name: est for name, est, _ in preprocessor.transformers_}[
+        "numerical"
+    ]
     mean_before = num_pipeline.named_steps["scaler"].mean_.copy()
 
     # Transform completely different data
     new_df = pd.DataFrame(
-        {"age": [100.0, 200.0, 300.0], "salary": [1.0, 2.0, 3.0], "city": ["X", "Y", "Z"]}
+        {
+            "age": [100.0, 200.0, 300.0],
+            "salary": [1.0, 2.0, 3.0],
+            "city": ["X", "Y", "Z"],
+        }
     )
     transform_dataset(new_df, preprocessor)
 
-    mean_after = {name: est for name, est, _ in preprocessor.transformers_}["numerical"].named_steps["scaler"].mean_
+    mean_after = (
+        {name: est for name, est, _ in preprocessor.transformers_}["numerical"]
+        .named_steps["scaler"]
+        .mean_
+    )
     assert (mean_before == mean_after).all(), "Preprocessor was refitted on new data!"
 
 

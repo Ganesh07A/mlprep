@@ -42,9 +42,7 @@ from mlprep.config import PreprocessConfig, default_config
 def get_column_types(df: pd.DataFrame) -> tuple[list[str], list[str]]:
     """Return (numerical_columns, categorical_columns) for *df*."""
     numerical_columns = df.select_dtypes(include="number").columns.tolist()
-    categorical_columns = (
-        df.select_dtypes(include=["str", "category"]).columns.tolist()
-    )
+    categorical_columns = df.select_dtypes(include=["str", "category"]).columns.tolist()
     return numerical_columns, categorical_columns
 
 

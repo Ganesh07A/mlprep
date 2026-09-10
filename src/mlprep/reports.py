@@ -132,9 +132,7 @@ def _describe_categorical_imputation(config: PreprocessConfig) -> str:
 
 def display_report(report: PreprocessReport) -> None:
     """Print the preprocessing report to the terminal using Rich."""
-    console.print(
-        Panel("[bold]Preprocessing Report[/bold]", expand=False)
-    )
+    console.print(Panel("[bold]Preprocessing Report[/bold]", expand=False))
 
     # Summary
     summary = Table(show_header=False, box=None, padding=(0, 2))

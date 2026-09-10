@@ -38,11 +38,13 @@ log = get_logger(__name__)
 
 # ── Thresholds ────────────────────────────────────────────────────────────────
 
-MISSING_HIGH_THRESHOLD = 0.50          # > 50% missing → warn
-CARDINALITY_HIGH_THRESHOLD = 50        # > 50 unique values in a categorical col
-IMBALANCE_THRESHOLD = 0.95             # dominant class > 95% of rows
-IDENTIFIER_UNIQUENESS_THRESHOLD = 0.95 # > 95% unique values → likely an ID
-_ID_PATTERNS = re.compile(r"(^|_)(id|key|uuid|pk|index|num|no|code)($|_)", re.IGNORECASE)
+MISSING_HIGH_THRESHOLD = 0.50  # > 50% missing → warn
+CARDINALITY_HIGH_THRESHOLD = 50  # > 50 unique values in a categorical col
+IMBALANCE_THRESHOLD = 0.95  # dominant class > 95% of rows
+IDENTIFIER_UNIQUENESS_THRESHOLD = 0.95  # > 95% unique values → likely an ID
+_ID_PATTERNS = re.compile(
+    r"(^|_)(id|key|uuid|pk|index|num|no|code)($|_)", re.IGNORECASE
+)
 
 
 # ── Safe column accessor ──────────────────────────────────────────────────────
@@ -63,7 +65,7 @@ def _get_col(df: pd.DataFrame, col: str) -> pd.Series:
 class QualityWarning:
     """A single data quality issue detected in a dataset."""
 
-    column: str | None   # None for dataset-level checks
+    column: str | None  # None for dataset-level checks
     check_name: str
     message: str
     recommendation: str
@@ -94,7 +96,9 @@ def _check_high_missingness(df: pd.DataFrame) -> list[QualityWarning]:
 
 def _check_constant_columns(df: pd.DataFrame) -> list[QualityWarning]:
     warnings = []
-    for col in dict.fromkeys(df.columns):  # iterate unique col names to avoid dup-col ambiguity
+    for col in dict.fromkeys(
+        df.columns
+    ):  # iterate unique col names to avoid dup-col ambiguity
         series = df[col]
         if isinstance(series, pd.DataFrame):
             series = series.iloc[:, 0]  # take first if duplicated
@@ -186,9 +190,8 @@ def _check_identifier_columns(df: pd.DataFrame) -> list[QualityWarning]:
         name_looks_like_id = bool(_ID_PATTERNS.search(col))
 
         is_suspicious = (
-            (name_looks_like_id and uniqueness >= IDENTIFIER_UNIQUENESS_THRESHOLD)
-            or (uniqueness >= 0.99 and n_rows >= 10)
-        )
+            name_looks_like_id and uniqueness >= IDENTIFIER_UNIQUENESS_THRESHOLD
+        ) or (uniqueness >= 0.99 and n_rows >= 10)
         if is_suspicious:
             warnings.append(
                 QualityWarning(

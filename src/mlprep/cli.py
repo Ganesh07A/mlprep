@@ -138,12 +138,14 @@ def preprocess(
     ),
     output: Path = typer.Option(  # noqa: B008
         Path("./data/processed.csv"),
-        "--output", "-o",
+        "--output",
+        "-o",
         help="Where to save the processed CSV.",
     ),
     config_path: Path | None = typer.Option(  # noqa: B008
         None,
-        "--config", "-c",
+        "--config",
+        "-c",
         help="Path to a YAML configuration file.",
     ),
     strategy: str | None = typer.Option(
@@ -194,7 +196,9 @@ def preprocess(
         err_console.print(f"✗ Error: {error}")
         raise typer.Exit(code=1)
 
-    console.print(f"[green]✓[/green] Dataset loaded — {len(df):,} rows, {len(df.columns)} columns")
+    console.print(
+        f"[green]✓[/green] Dataset loaded — {len(df):,} rows, {len(df.columns)} columns"
+    )
 
     # ── Data quality checks ────────────────────────────────────────────────
     if not no_warnings:
@@ -287,7 +291,8 @@ def transform(
     ),
     output: Path = typer.Option(  # noqa: B008
         Path("./data/transformed.csv"),
-        "--output", "-o",
+        "--output",
+        "-o",
         help="Where to save the transformed CSV.",
     ),
     verbose: _VerboseOpt = False,
@@ -315,7 +320,9 @@ def transform(
         err_console.print(f"✗ Error: {error}")
         raise typer.Exit(code=1)
 
-    console.print(f"[green]✓[/green] Dataset loaded — {len(df):,} rows, {len(df.columns)} columns")
+    console.print(
+        f"[green]✓[/green] Dataset loaded — {len(df):,} rows, {len(df.columns)} columns"
+    )
 
     # ── Column compatibility ────────────────────────────────────────────────
     try:
